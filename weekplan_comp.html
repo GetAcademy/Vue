@@ -22,7 +22,7 @@
         <select v-model="participant">
             <option v-for="participant in participants">{{participant}}</option>
         </select>
-        <weekplan :classes="classes" participant="Terje"></weekplan>
+        <weekplan :classes="classes" :participant="participant"></weekplan>
     </div>
     <script>
 
@@ -43,7 +43,7 @@
             methods: {
                 getText: function (day, time) {
                     const participant = this.participant;
-                    console.log(participant);
+                    if (!participant) return '';
                     const classes = this.classes.filter(c => c.day === day && c.time === time && c.participants.includes(participant));
                     if (classes.length === 0) return '';
                     return classes[0].text;
@@ -56,7 +56,7 @@
                     return Array.from(set);
                 }
             },
-            template:  `<table>
+            template: `<table>
                             <tr>
                                 <th></th>
                                 <th v-for="day in days">{{day.text}}</th>
