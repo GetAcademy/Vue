@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <title></title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="weekplan.js"></script>
     <style>
         table {
             border-collapse: collapse;
@@ -26,61 +27,10 @@
     </div>
     <script>
 
-        Vue.component('weekplan', {
-            props: ['classes', 'participant'],
-            data: function () {
-                return {
-                    days: [
-                        { id: 0, text: 'Mandag' },
-                        { id: 1, text: 'Tirsdag' },
-                        { id: 2, text: 'Onsdag' },
-                        { id: 3, text: 'Torsdag' },
-                        { id: 4, text: 'Fredag' }
-                    ],
-                    timeslots: getTimeslots(8.5, 15, 0.25),
-                }
-            },
-            methods: {
-                getText: function (day, time) {
-                    const participant = this.participant;
-                    if (!participant) return '';
-                    const classes = this.classes.filter(c => c.day === day && c.time === time && c.participants.includes(participant));
-                    if (classes.length === 0) return '';
-                    return classes[0].text;
-                }
-            },
-            computed: {
-                participants: function () {
-                    const set = new Set(['']);
-                    this.classes.forEach(c => c.participants.forEach(p => set.add(p)));
-                    return Array.from(set);
-                }
-            },
-            template: `<table>
-                            <tr>
-                                <th></th>
-                                <th v-for="day in days">{{day.text}}</th>
-                            </tr>
-
-                            <tr v-for="time in timeslots">
-                                <td>{{time.text}}</td>
-                                <td v-for="day in days">{{getText(day.text, time.text)}}</td>
-
-                            </tr>
-                        </table>`
-        })
         var app = new Vue({
             el: '#app',
             data: {
                 participant: null,
-                days: [
-                    { id: 0, text: 'Mandag' },
-                    { id: 1, text: 'Tirsdag' },
-                    { id: 2, text: 'Onsdag' },
-                    { id: 3, text: 'Torsdag' },
-                    { id: 4, text: 'Fredag' }
-                ],
-                timeslots: getTimeslots(8.5, 15, 0.25),
                 classes: [
                     { id: 0, text: 'Nøkkelkompetenser', day: 'Mandag', time: '8:45', participants: ['Geir', 'Eskil', 'GET IT 1', 'GET IT 2'] },
                     { id: 1, text: 'Nøkkelkompetenser', day: 'Mandag', time: '9:00', participants: ['Geir', 'Eskil', 'GET IT 1', 'GET IT 2'] },
@@ -89,14 +39,6 @@
                     { id: 4, text: 'IT', day: 'Mandag', time: '10:15', participants: ['Terje', 'GET IT 1'] },
                     { id: 5, text: 'IT', day: 'Mandag', time: '10:30', participants: ['Terje', 'GET IT 1'] }
                 ]
-            },
-            methods: {
-                getText: function (day, time) {
-                    const participant = this.participant;
-                    const classes = this.classes.filter(c => c.day === day && c.time === time && c.participants.includes(participant));
-                    if (classes.length === 0) return '';
-                    return classes[0].text;
-                }
             },
             computed: {
                 participants: function () {
@@ -107,19 +49,7 @@
             }
         });
 
-        function getTimeslots(start, stop, duration) {
-            const timeslots = [];
-            for (let time = start; time <= stop; time += duration) {
-                timeslots.push({ id: timeslots.length, text: timeFromFloat(time) });
-            }
-            return timeslots;
-        }
 
-        function timeFromFloat(time) {
-            let minutes = 60 * (time % 1);
-            if (minutes < 10) minutes = '0' + minutes;
-            return Math.floor(time) + ':' + minutes;
-        }
     </script>
 </body>
 </html>
