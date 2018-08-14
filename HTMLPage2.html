@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div id="debugDiv"></div>
+    <ul id="list"></ul>
+    <button onclick="createMessages()">Lag meldinger</button>
+    <script>
+        var list = document.getElementById('list');
+        var debugDiv= document.getElementById('debugDiv');
+
+        function createMessages() {
+            list.innerHTML = '';
+            createMessage('Hei!', 'left', 'https://www.icon2s.com/img64/64x64-brown-woman-people-icon.png');
+            createMessage('Hei! :-)', 'right', 'https://www.icon2s.com/img64/64x64-brown-man-people-icon.png');
+            createMessage('Hvordan står det til?', 'right', 'https://www.icon2s.com/img64/64x64-brown-woman-people-icon.png');
+            createDay('Onsdag');
+            createMessage('Bare bra! :-)', 'right', 'https://www.icon2s.com/img64/64x64-brown-man-people-icon.png');
+
+            debugDiv.innerText = list.outerHTML;
+        }
+
+        function createMessage(text, place, imageSrc) {
+            var imgTag = '<img src="' + imageSrc + '"/>';
+            var txtTag = '<div class="">' + text + '</div>';
+            list.innerHTML += '<li class="msg-' + place + '">' + imgTag + txtTag + '</li>';
+        }
+
+        function createDay(day) {
+            list.innerHTML += '<li class="msg-day">' + day + '</li>';
+        }
+
+    </script>
+</body>
+</html>

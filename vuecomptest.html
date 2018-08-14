@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <weekplan-timeslot v-for="timeslot in timeslots" v-bind:text="timeslot" ></weekplan-timeslot>
+            
+        </ul>
+    </div>
+<script>
+    Vue.component('weekplan-timeslot',
+        {
+            props: ['text'],
+            template: '<li>{{ text }}</li>'
+        });
+
+    //Vue.component('weekplan-item',kjh
+    //    {
+    //        props: ['day', 'time'],
+    //        template: '<li>{{ text }}{{ day }}{{ time }}</li>'
+    //    });
+    var app = new Vue({
+        el: '#app',
+        data: {
+            days: ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag'],
+            timeslots: getTimeslots(),
+            classes: [
+                { text: 'Nøkkelkompetenser', day: 'Mandag', time: '8:45', participants: ['Geir', 'Eskil', 'GET IT 1', 'GET IT 2'] },
+                { text: 'Nøkkelkompetenser', day: 'Mandag', time: '9:00', participants: ['Geir', 'Eskil', 'GET IT 1', 'GET IT 2'] },
+                { text: 'Nøkkelkompetenser', day: 'Mandag', time: '9:15', participants: ['Geir', 'Eskil', 'GET IT 1', 'GET IT 2'] },
+                { text: 'IT', day: 'Mandag', time: '10:00', participants: ['Terje', 'GET IT 1'] },
+                { text: 'IT', day: 'Mandag', time: '10:15', participants: ['Terje', 'GET IT 1'] },
+                { text: 'IT', day: 'Mandag', time: '10:30', participants: ['Terje', 'GET IT 1'] }
+            ]
+        }
+    });
+
+    function getTimeslots(start, stop, duration) {
+        const timeslots = [];
+        for (let time = start; time <= stop; time += duration) {
+            timeslots.push(timeFromFloat(time));
+        }
+        return timeslots;
+    }
+
+    function timeFromFloat(time) {
+        return Math.floor(time) + ':' + 60 * (time % 1);
+    }
+</script>
+</body>
+</html>
